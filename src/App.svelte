@@ -1,6 +1,6 @@
 <script lang="ts">
   import logo from "./assets/svelte.png";
-  import Counter from "./lib/Counter.svelte";
+  import Button from "./lib/Button.svelte";
 
   // Declare activities
   const activities = [
@@ -40,11 +40,13 @@
     return array;
   }
 
-  function getRandomActivities(limit = 9) {
-    return shuffleArray([...activities]).slice(0, limit);
+  let shuffledActivities = [];
+
+  function shuffleActivities(limit = 9) {
+    shuffledActivities = shuffleArray([...activities]).slice(0, limit);
   }
 
-  let shuffledActivities = getRandomActivities();
+  shuffleActivities();
 </script>
 
 <main>
@@ -53,21 +55,11 @@
 
   <ul>
     {#each shuffledActivities as activity}
-      <li>{activity.title}</li>
+      <li>{activity.title} {activity.emoji.join(" ")}</li>
     {/each}
   </ul>
 
-  <Counter />
-
-  <p>
-    Visit <a href="https://svelte.dev">svelte.dev</a> to learn how to build Svelte
-    apps.
-  </p>
-
-  <p>
-    Check out <a href="https://github.com/sveltejs/kit#readme">SvelteKit</a> for
-    the officially supported framework, also powered by Vite!
-  </p>
+  <Button label="Shuffle" on:click={() => shuffleActivities()} />
 </main>
 
 <style>

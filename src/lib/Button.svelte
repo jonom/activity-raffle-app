@@ -1,12 +1,16 @@
 <script lang="ts">
-  let count: number = 0
-  const increment = () => {
-    count += 1
+  import { createEventDispatcher } from "svelte";
+  export let label = "";
+
+  const dispatch = createEventDispatcher();
+
+  function dispatchClick() {
+    dispatch("click");
   }
 </script>
 
-<button on:click={increment}>
-  Clicks: {count}
+<button on:click={dispatchClick}>
+  {label}
 </button>
 
 <style>
