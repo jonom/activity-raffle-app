@@ -69,7 +69,7 @@
     }, time);
   }
 
-  function tick({ message = "tick", last = false }) {
+  function tick({ last = false }) {
     if (
       highlightedActivityIndex === null ||
       highlightedActivityIndex === limit - 1
@@ -95,9 +95,12 @@
         class:highlighted={i === highlightedActivityIndex}
         class:selected={i === selectedActivityIndex}
       >
-        <div class="front" />
+        <div class="front">
+          {activity.emojis[0]}
+        </div>
         <div class="back">
-          {activity.title}
+          <h3 class="title">{activity.title}</h3>
+          <p class="emojis">{activity.emojis.join(" ")}</p>
         </div>
       </li>
     {/each}
@@ -138,8 +141,8 @@
   ul {
     display: grid;
     grid-template-columns: repeat(3, minmax(auto, 1fr));
-    gap: 1rem;
-    margin: 0;
+    gap: 3vmin;
+    margin: 5vmin;
     padding: 0;
   }
 
@@ -165,6 +168,15 @@
     border: 1px solid grey;
     border-radius: 1rem;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    backface-visibility: hidden;
+  }
+
+  li .front {
+    font-size: 10vmin;
   }
 
   li.highlighted .front {
@@ -172,9 +184,7 @@
   }
 
   li.selected .front {
-    background: lime;
-    /* animation-duration: 2s;
-    animation-name: flipOver; */
+    background: yellow;
   }
   li.selected .front,
   li.selected .back {
@@ -186,11 +196,22 @@
   }
   li.selected .back {
     animation-name: flipBack;
+    background: lime;
   }
 
   .back {
     transform: rotateY(180deg);
-    backface-visibility: hidden;
+  }
+
+  .back .title {
+    font-size: 5vmin;
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .back .emojis {
+    font-size: 5vmin;
+    margin: 0.25em 0 0;
   }
 
   @keyframes flipContainer {
@@ -222,6 +243,10 @@
     100% {
       transform: perspective(100vh) rotateY(360deg);
     }
+  }
+
+  .controls {
+    margin: 0 5vmin 5vmin;
   }
 
   p {
