@@ -47,6 +47,24 @@
   }
 
   shuffleActivities();
+
+  function spin({ time = 25, decay = 1.01, friction = 100, cutoff = 1000 }) {
+    console.log({ time, decay, cutoff });
+    window.setTimeout(() => {
+      const last = time > cutoff;
+      tick({ last });
+      if (!last)
+        spin({
+          time: time * decay + (time / cutoff) * friction,
+          decay,
+          cutoff,
+        });
+    }, time);
+  }
+
+  function tick({ message = "tick", last = false }) {
+    console.log(message, last);
+  }
 </script>
 
 <main>
@@ -60,6 +78,7 @@
   </ul>
 
   <Button label="Shuffle" on:click={() => shuffleActivities()} />
+  <Button label="Spin" on:click={() => spin({})} />
 </main>
 
 <style>
