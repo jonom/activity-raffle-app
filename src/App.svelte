@@ -1,35 +1,38 @@
 <script lang="ts">
   import Button from "./lib/Button.svelte";
+  import JSConfetti from "js-confetti";
 
   const limit = 6;
   // Declare activities
   const activities = [
-    { title: "Activity 1", emoji: ["🙉", "😃"] },
-    { title: "Activity 2", emoji: ["🐛", "🙉"] },
-    { title: "Activity 3", emoji: ["🐴", "🐌"] },
-    { title: "Activity 4", emoji: ["💂‍♂️", "😄"] },
-    { title: "Activity 5", emoji: ["🐼", "👷‍♂️"] },
-    { title: "Activity 6", emoji: ["🦄", "🎑"] },
-    { title: "Activity 7", emoji: ["👷", "🪀"] },
-    { title: "Activity 8", emoji: ["🛻", "🤜"] },
-    { title: "Activity 9", emoji: ["🐷", "👗"] },
-    { title: "Activity 10", emoji: ["🐯", "🍒"] },
-    { title: "Activity 11", emoji: ["🍈", "👮"] },
-    { title: "Activity 12", emoji: ["🧑", "😇"] },
-    { title: "Activity 13", emoji: ["🏛", "🌆"] },
-    { title: "Activity 14", emoji: ["🖨", "🕶"] },
-    { title: "Activity 15", emoji: ["🍎", "😔"] },
-    { title: "Activity 16", emoji: ["🤩", "🐨"] },
-    { title: "Activity 17", emoji: ["🍋", "🩰"] },
-    { title: "Activity 18", emoji: ["😌", "🍑"] },
-    { title: "Activity 19", emoji: ["🐤", "🌃"] },
-    { title: "Activity 20", emoji: ["🧐", "👝"] },
-    { title: "Activity 21", emoji: ["📲", "🛕"] },
-    { title: "Activity 22", emoji: ["🌠", "🤏"] },
-    { title: "Activity 23", emoji: ["🤲", "🪲"] },
-    { title: "Activity 24", emoji: ["👏", "🙏"] },
-    { title: "Activity 25", emoji: ["🧵", "😞"] },
+    { title: "Activity 1", emojis: ["🙉", "😃"] },
+    { title: "Activity 2", emojis: ["🐛", "🙉"] },
+    { title: "Activity 3", emojis: ["🐴", "🐌"] },
+    { title: "Activity 4", emojis: ["💂‍♂️", "😄"] },
+    { title: "Activity 5", emojis: ["🐼", "👷‍♂️"] },
+    { title: "Activity 6", emojis: ["🦄", "🎑"] },
+    { title: "Activity 7", emojis: ["👷", "🪀"] },
+    { title: "Activity 8", emojis: ["🛻", "🤜"] },
+    { title: "Activity 9", emojis: ["🐷", "👗"] },
+    { title: "Activity 10", emojis: ["🐯", "🍒"] },
+    { title: "Activity 11", emojis: ["🍈", "👮"] },
+    { title: "Activity 12", emojis: ["🧑", "😇"] },
+    { title: "Activity 13", emojis: ["🏛", "🌆"] },
+    { title: "Activity 14", emojis: ["🖨", "🕶"] },
+    { title: "Activity 15", emojis: ["🍎", "😔"] },
+    { title: "Activity 16", emojis: ["🤩", "🐨"] },
+    { title: "Activity 17", emojis: ["🍋", "🩰"] },
+    { title: "Activity 18", emojis: ["😌", "🍑"] },
+    { title: "Activity 19", emojis: ["🐤", "🌃"] },
+    { title: "Activity 20", emojis: ["🧐", "👝"] },
+    { title: "Activity 21", emojis: ["📲", "🛕"] },
+    { title: "Activity 22", emojis: ["🌠", "🤏"] },
+    { title: "Activity 23", emojis: ["🤲", "🪲"] },
+    { title: "Activity 24", emojis: ["👏", "🙏"] },
+    { title: "Activity 25", emojis: ["🧵", "😞"] },
   ];
+
+  const jsConfetti = new JSConfetti();
 
   // Randomize array in-place using Durstenfeld shuffle algorithm - https://stackoverflow.com/a/12646864
   function shuffleArray(array: any[]) {
@@ -59,7 +62,7 @@
       tick({ last });
       if (!last)
         spin({
-          time: time * decay + (time / cutoff) * friction,
+          time: time * decay + ((time - 24) / cutoff) * friction,
           decay,
           cutoff,
         });
@@ -77,6 +80,10 @@
     }
     if (last) {
       selectedActivityIndex = highlightedActivityIndex;
+      jsConfetti.addConfetti({
+        emojis: Object.values(shuffledActivities)[selectedActivityIndex].emojis,
+        emojiSize: 200,
+      });
     }
   }
 </script>
@@ -91,7 +98,6 @@
         <div class="front" />
         <div class="back">
           {activity.title}
-          {activity.emoji.join(" ")}
         </div>
       </li>
     {/each}
