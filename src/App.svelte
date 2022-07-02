@@ -1,7 +1,7 @@
 <script lang="ts">
-  import logo from "./assets/svelte.png";
   import Button from "./lib/Button.svelte";
 
+  const limit = 9;
   // Declare activities
   const activities = [
     { title: "Activity 1", emoji: ["🙉", "😃"] },
@@ -41,15 +41,18 @@
   }
 
   let shuffledActivities = [];
+  let highlightedActivityIndex: null | number = null;
+  let selectedActivityIndex: null | number = null;
 
-  function shuffleActivities(limit = 9) {
+  function shuffleActivities() {
     shuffledActivities = shuffleArray([...activities]).slice(0, limit);
+    highlightedActivityIndex = null;
+    selectedActivityIndex = null;
   }
 
   shuffleActivities();
 
-  function spin({ time = 25, decay = 1.01, friction = 100, cutoff = 1000 }) {
-    console.log({ time, decay, cutoff });
+  function spin({ time = 25, decay = 1.01, friction = 150, cutoff = 1000 }) {
     window.setTimeout(() => {
       const last = time > cutoff;
       tick({ last });
@@ -63,17 +66,32 @@
   }
 
   function tick({ message = "tick", last = false }) {
-    console.log(message, last);
+    if (
+      highlightedActivityIndex === null ||
+      highlightedActivityIndex === limit - 1
+    ) {
+      highlightedActivityIndex = 0;
+    } else {
+      highlightedActivityIndex = highlightedActivityIndex + 1;
+    }
+    if (last) {
+      selectedActivityIndex = highlightedActivityIndex;
+    }
   }
 </script>
 
 <main>
-  <img src={logo} alt="Svelte Logo" />
-  <h1>Hello Typescript!</h1>
+  <h1>I'm bored! Let's...</h1>
 
   <ul>
-    {#each shuffledActivities as activity}
-      <li>{activity.title} {activity.emoji.join(" ")}</li>
+    {#each shuffledActivities as activity, i}
+      <li
+        class:highlighted={i === highlightedActivityIndex}
+        class:selected={i === selectedActivityIndex}
+      >
+        {activity.title}
+        {activity.emoji.join(" ")}
+      </li>
     {/each}
   </ul>
 
@@ -106,6 +124,14 @@
     line-height: 1.1;
     margin: 2rem auto;
     max-width: 14rem;
+  }
+
+  li.highlighted {
+    background: yellow;
+  }
+
+  li.selected {
+    background: lime;
   }
 
   p {
