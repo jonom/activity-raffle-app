@@ -1,7 +1,7 @@
 <script lang="ts">
   import Button from "./lib/Button.svelte";
 
-  const limit = 9;
+  const limit = 6;
   // Declare activities
   const activities = [
     { title: "Activity 1", emoji: ["🙉", "😃"] },
@@ -52,7 +52,8 @@
 
   shuffleActivities();
 
-  function spin({ time = 25, decay = 1.01, friction = 150, cutoff = 1000 }) {
+  function spin({ time = 25, decay = 1.005, friction = 300, cutoff = 1000 }) {
+    selectedActivityIndex = null;
     window.setTimeout(() => {
       const last = time > cutoff;
       tick({ last });
@@ -81,22 +82,24 @@
 </script>
 
 <main>
-  <h1>I'm bored! Let's...</h1>
-
-  <ul>
+  <ul class="cards">
     {#each shuffledActivities as activity, i}
       <li
         class:highlighted={i === highlightedActivityIndex}
         class:selected={i === selectedActivityIndex}
       >
-        {activity.title}
-        {activity.emoji.join(" ")}
+        <div class="front" />
+        <div class="back">
+          {activity.title}
+          {activity.emoji.join(" ")}
+        </div>
       </li>
     {/each}
   </ul>
-
-  <Button label="Shuffle" on:click={() => shuffleActivities()} />
-  <Button label="Spin" on:click={() => spin({})} />
+  <div class="controls">
+    <Button label="Shuffle" on:click={() => shuffleActivities()} />
+    <Button label="Spin" on:click={() => spin({})} />
+  </div>
 </main>
 
 <style>
@@ -105,33 +108,114 @@
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   }
 
+  :global(html),
+  :global(body) {
+    height: 100%;
+    margin: 0;
+  }
+
+  :global(body) {
+    position: relative;
+  }
+
   main {
-    text-align: center;
-    padding: 1em;
-    margin: 0 auto;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    overflow: hidden;
   }
 
-  img {
-    height: 16rem;
-    width: 16rem;
+  ul {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(auto, 1fr));
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
   }
 
-  h1 {
-    color: #ff3e00;
-    text-transform: uppercase;
-    font-size: 4rem;
-    font-weight: 100;
-    line-height: 1.1;
-    margin: 2rem auto;
-    max-width: 14rem;
-  }
-
-  li.highlighted {
-    background: yellow;
+  li {
+    list-style-type: none;
+    position: relative;
   }
 
   li.selected {
+    animation-duration: 2s;
+    animation-name: flipContainer;
+    animation-fill-mode: forwards;
+  }
+
+  li .front,
+  li .back {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    padding: 2rem;
+    border: 1px solid grey;
+    border-radius: 1rem;
+    box-sizing: border-box;
+  }
+
+  li.highlighted .front {
+    background: yellow;
+  }
+
+  li.selected .front {
     background: lime;
+    /* animation-duration: 2s;
+    animation-name: flipOver; */
+  }
+  li.selected .front,
+  li.selected .back {
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+  }
+  li.selected .front {
+    animation-name: flipFront;
+  }
+  li.selected .back {
+    animation-name: flipBack;
+  }
+
+  .back {
+    transform: rotateY(180deg);
+    backface-visibility: hidden;
+  }
+
+  @keyframes flipContainer {
+    0% {
+      transform: scale(1);
+    }
+    30% {
+      transform: scale(1.5);
+    }
+
+    100% {
+      transform: scale(1);
+    }
+  }
+  @keyframes flipFront {
+    0% {
+      transform: perspective(100vh) rotateY(0);
+    }
+
+    100% {
+      transform: perspective(100vh) rotateY(180deg);
+    }
+  }
+  @keyframes flipBack {
+    0% {
+      transform: perspective(100vh) rotateY(180deg);
+    }
+
+    100% {
+      transform: perspective(100vh) rotateY(360deg);
+    }
   }
 
   p {
