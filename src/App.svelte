@@ -5,31 +5,71 @@
   const limit = 6;
   // Declare activities
   const activities = [
-    { title: "Activity 1", emojis: ["🙉", "😃"] },
-    { title: "Activity 2", emojis: ["🐛", "🙉"] },
-    { title: "Activity 3", emojis: ["🐴", "🐌"] },
-    { title: "Activity 4", emojis: ["💂‍♂️", "😄"] },
-    { title: "Activity 5", emojis: ["🐼", "👷‍♂️"] },
-    { title: "Activity 6", emojis: ["🦄", "🎑"] },
-    { title: "Activity 7", emojis: ["👷", "🪀"] },
-    { title: "Activity 8", emojis: ["🛻", "🤜"] },
-    { title: "Activity 9", emojis: ["🐷", "👗"] },
-    { title: "Activity 10", emojis: ["🐯", "🍒"] },
-    { title: "Activity 11", emojis: ["🍈", "👮"] },
-    { title: "Activity 12", emojis: ["🧑", "😇"] },
-    { title: "Activity 13", emojis: ["🏛", "🌆"] },
-    { title: "Activity 14", emojis: ["🖨", "🕶"] },
-    { title: "Activity 15", emojis: ["🍎", "😔"] },
-    { title: "Activity 16", emojis: ["🤩", "🐨"] },
-    { title: "Activity 17", emojis: ["🍋", "🩰"] },
-    { title: "Activity 18", emojis: ["😌", "🍑"] },
-    { title: "Activity 19", emojis: ["🐤", "🌃"] },
-    { title: "Activity 20", emojis: ["🧐", "👝"] },
-    { title: "Activity 21", emojis: ["📲", "🛕"] },
-    { title: "Activity 22", emojis: ["🌠", "🤏"] },
-    { title: "Activity 23", emojis: ["🤲", "🪲"] },
-    { title: "Activity 24", emojis: ["👏", "🙏"] },
-    { title: "Activity 25", emojis: ["🧵", "😞"] },
+    {
+      title: "Draw with chalk! (outside or in the pen)",
+      emojis: ["🎨", "🌈", "🐠", "❤️", "💩", "🐶", "🦋", "🦄"],
+    },
+    {
+      title: "Mario and Yoshi RC race!",
+      emojis: ["🏎", "🏁", "🚗", "🏍", "🛵", "🚦"],
+    },
+    {
+      title: "Race on the Mario Kart Hotwheels track!",
+      emojis: ["🏎", "🏁", "🚗", "🏍", "🛵", "🚦"],
+    },
+    { title: "Bubble party!", emojis: ["🫧", "💦", "🥰"] },
+    { title: "Garden scavenger hunt!", emojis: ["🪴", "🌸", "🍁", "🐞", "🐛"] },
+    {
+      title: "Learn to draw an animal!",
+      emojis: ["🐶", "🐰", "🦊", "🐼", "🐷", "🦄", "🐻"],
+    },
+    {
+      title: "Stickers & Stamps!",
+      emojis: ["🐶", "🦄", "🌈", "🌸", "🦋", "🚗", "🚀", "⚽️"],
+    },
+    {
+      title: "Paint a picture!",
+      emojis: ["🎨", "🌈", "🐠", "❤️", "💩", "🐶", "🦋", "🦄", "🖼"],
+    },
+    { title: "Kinetic sand!", emojis: ["🏜", "🏰", "🐚", "🐠"] },
+    {
+      title: "Make a play-doh creature!",
+      emojis: ["🐙", "🐍", "🦋", "🐝", "🧌"],
+    },
+    {
+      title: "Build with Lego or Duplo!",
+      emojis: ["🧱", "👷🏻‍♂️", "🏡", "🛠", "🦺", "🚧"],
+    },
+    {
+      title: "Sandpit & water table!",
+      emojis: ["💦", "💧", "🌊", "🏖", "⛱", "🏜"],
+    },
+    {
+      title: "Playhouse café!",
+      emojis: ["🥪", "🧁", "🍰", "🍪", "☕️", "🫖", "🥤", "🍦"],
+    },
+    { title: "Queens and Butlers!", emojis: ["👑", "👸", "💎"] },
+    { title: "Verandah Santa!", emojis: ["🎅🏻", "🎄", "🎁"] },
+    { title: "UNO / Pizza / Guess Who!", emojis: ["🎲", "🃏", "🎯", "♟"] },
+    { title: "Find a Chirp activity!", emojis: ["🐥", "🎨", "🧶"] },
+    {
+      title: "Dress up as a ______!",
+      emojis: ["🦺", "🛠", "👑", "🦹🏻‍♀️", "🦸🏼‍♂️", "👗", "👻", "🤖", "👽", "👮‍♀️"],
+    },
+    { title: "Make something out of cardboard!", emojis: ["📦", "📎", "✂️"] },
+    { title: "Build a fort!", emojis: ["🏰", "🎪", "⛺️"] },
+    { title: "Play camping!", emojis: ["🏕", "⛺️", "🪵", "🔥", "🚣‍♀️"] },
+    {
+      title: "Animal doctor!",
+      emojis: ["🩺", "👩🏼‍⚕️", "👨🏽‍⚕️", "🥼", "🐈", "🐕", "🐇", "🐴"],
+    },
+    {
+      title: "Pick a toy from the crawl space!",
+      emojis: ["🧸", "🪀", "🚂", "🚗"],
+    },
+    { title: "Clicky tracks!", emojis: ["🚗", "🚙"] },
+    { title: "Lite-Brite!", emojis: ["🎆", "🌌", "💡", "✨"] },
+    { title: "Catch!", emojis: ["🫴🏼", "⚾️", "🥎", "🎾", "🖐🏼", "🤲🏻"] },
   ];
 
   const jsConfetti = new JSConfetti();
@@ -173,6 +213,7 @@
     justify-content: center;
     align-items: center;
     backface-visibility: hidden;
+    text-align: center;
   }
 
   li .front {
