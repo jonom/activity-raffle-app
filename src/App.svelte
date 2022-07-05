@@ -159,6 +159,12 @@
     />
     <Button disabled={spinning} label="Spin" on:click={() => spin({})} />
   </div>
+  <div
+    class="veil"
+    class:veil-semi-visible={spinning}
+    class:veil-visible={selectedActivityIndex !== null}
+    on:click={() => shuffleActivities()}
+  />
 </main>
 
 <style>
@@ -368,5 +374,26 @@
     max-width: 14rem;
     margin: 1rem auto;
     line-height: 1.35;
+  }
+
+  .veil {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(3, 0, 47, 0.35);
+    opacity: 0;
+    transition: opacity 1s ease;
+    pointer-events: none;
+  }
+
+  .veil-semi-visible {
+    opacity: 0.3;
+  }
+
+  .veil-visible {
+    opacity: 1;
+    pointer-events: all;
   }
 </style>
