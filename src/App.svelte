@@ -6,7 +6,7 @@
   // Declare activities
   const activities = [
     {
-      title: "Draw with chalk! (outside or in the pen)",
+      title: "Sidewalk (or pen) chalk!",
       emojis: ["🎨", "🌈", "🐠", "❤️", "💩", "🐶", "🦋", "🦄"],
     },
     {
@@ -14,7 +14,7 @@
       emojis: ["🏎", "🏁", "🚗", "🏍", "🛵", "🚦"],
     },
     {
-      title: "Race on the Mario Kart Hotwheels track!",
+      title: "Mario Kart Hotwheels race!",
       emojis: ["🏎", "🏁", "🚗", "🏍", "🛵", "🚦"],
     },
     { title: "Bubble party!", emojis: ["🫧", "💦", "🥰"] },
@@ -56,7 +56,7 @@
       title: "Dress up as a ______!",
       emojis: ["🦺", "🛠", "👑", "🦹🏻‍♀️", "🦸🏼‍♂️", "👗", "👻", "🤖", "👽", "👮‍♀️"],
     },
-    { title: "Make something out of cardboard!", emojis: ["📦", "📎", "✂️"] },
+    { title: "Make a cardboard creature!", emojis: ["📦", "📎", "✂️"] },
     { title: "Build a fort!", emojis: ["🏰", "🎪", "⛺️"] },
     { title: "Play camping!", emojis: ["🏕", "⛺️", "🪵", "🔥", "🚣‍♀️"] },
     {
@@ -64,7 +64,7 @@
       emojis: ["🩺", "👩🏼‍⚕️", "👨🏽‍⚕️", "🥼", "🐈", "🐕", "🐇", "🐴"],
     },
     {
-      title: "Pick a toy from the crawl space!",
+      title: "Pick a crawl space toy!",
       emojis: ["🧸", "🪀", "🚂", "🚗"],
     },
     { title: "Clicky tracks!", emojis: ["🚗", "🚙"] },
@@ -86,6 +86,7 @@
   let shuffledActivities = [];
   let highlightedActivityIndex: null | number = null;
   let selectedActivityIndex: null | number = null;
+  let spinning = false;
 
   function shuffleActivities() {
     shuffledActivities = shuffleArray([...activities]).slice(0, limit);
@@ -96,6 +97,7 @@
   shuffleActivities();
 
   function spin({ velocity = 3000, decay = 1.005, friction = 35 }) {
+    if (!spinning) spinning = true;
     selectedActivityIndex = null;
     const time = 50000 / velocity;
     const nextVelocity = velocity / decay - friction;
@@ -119,6 +121,7 @@
       highlightedActivityIndex = highlightedActivityIndex + 1;
     }
     if (last) {
+      spinning = false;
       selectedActivityIndex = highlightedActivityIndex;
       window.setTimeout(() => {
         jsConfetti.addConfetti({
@@ -143,14 +146,18 @@
         </div>
         <div class="back">
           <h3 class="title">{activity.title}</h3>
-          <p class="emojis">{activity.emojis.join(" ")}</p>
+          <p class="emojis">{activity.emojis.slice(0, 5).join(" ")}</p>
         </div>
       </li>
     {/each}
   </ul>
   <div class="controls">
-    <Button label="Shuffle" on:click={() => shuffleActivities()} />
-    <Button label="Spin" on:click={() => spin({})} />
+    <Button
+      disabled={spinning}
+      label="Shuffle"
+      on:click={() => shuffleActivities()}
+    />
+    <Button disabled={spinning} label="Spin" on:click={() => spin({})} />
   </div>
 </main>
 
@@ -168,6 +175,7 @@
 
   :global(body) {
     position: relative;
+    background: rgb(230, 241, 248);
   }
 
   main {
@@ -184,8 +192,8 @@
   ul {
     display: grid;
     grid-template-columns: repeat(3, minmax(auto, 1fr));
-    gap: 3vmin;
-    margin: 5vmin;
+    gap: 5vmin;
+    margin: 7vmin;
     padding: 0;
   }
 
@@ -196,8 +204,31 @@
 
   li.selected {
     animation-duration: 2s;
-    animation-name: flipContainer;
     animation-fill-mode: forwards;
+  }
+
+  li.selected:nth-child(1) {
+    animation-name: flipContainer1;
+  }
+
+  li.selected:nth-child(2) {
+    animation-name: flipContainer2;
+  }
+
+  li.selected:nth-child(3) {
+    animation-name: flipContainer3;
+  }
+
+  li.selected:nth-child(4) {
+    animation-name: flipContainer4;
+  }
+
+  li.selected:nth-child(5) {
+    animation-name: flipContainer5;
+  }
+
+  li.selected:nth-child(6) {
+    animation-name: flipContainer6;
   }
 
   li .front,
@@ -208,7 +239,8 @@
     width: 100%;
     height: 100%;
     padding: 2rem;
-    border: 1px solid grey;
+    background: rgb(203, 245, 255);
+    border: 2px solid rgb(93, 207, 236);
     border-radius: 1rem;
     box-sizing: border-box;
     display: flex;
@@ -223,13 +255,19 @@
     font-size: 10vmin;
   }
 
-  li.highlighted .front {
-    background: yellow;
+  li.highlighted .front,
+  li.selected .front {
+    background: rgb(244, 238, 131);
+    border-color: rgb(234, 224, 28);
   }
 
-  li.selected .front {
-    background: yellow;
+  li.highlighted,
+  li.selected {
+    z-index: 1;
+    transform: scale(1.05);
+    transition: transform 0.3s;
   }
+
   li.selected .front,
   li.selected .back {
     animation-duration: 2s;
@@ -240,11 +278,12 @@
   }
   li.selected .back {
     animation-name: flipBack;
-    background: lime;
   }
 
-  .back {
+  li .back {
     transform: rotateY(180deg);
+    background: white;
+    border-color: rgb(202, 217, 226);
   }
 
   .back .title {
@@ -258,16 +297,43 @@
     margin: 0.25em 0 0;
   }
 
-  @keyframes flipContainer {
-    0% {
-      transform: scale(1);
-    }
-    30% {
-      transform: scale(1.5);
-    }
-
+  @keyframes flipContainer1 {
     100% {
-      transform: scale(1);
+      transform: translate(calc(100% + 3.5vmin), calc(50% + 3.5vmin))
+        scale(1.75);
+    }
+  }
+
+  @keyframes flipContainer2 {
+    100% {
+      transform: translate(0, calc(50% + 3.5vmin)) scale(1.75);
+    }
+  }
+
+  @keyframes flipContainer3 {
+    100% {
+      transform: translate(calc(-100% - 3.5vmin), calc(50% + 3.5vmin))
+        scale(1.75);
+    }
+  }
+
+  @keyframes flipContainer4 {
+    100% {
+      transform: translate(calc(100% + 3.5vmin), calc(-50% - 3.5vmin))
+        scale(1.75);
+    }
+  }
+
+  @keyframes flipContainer5 {
+    100% {
+      transform: translate(0, calc(-50% - 3.5vmin)) scale(1.75);
+    }
+  }
+
+  @keyframes flipContainer6 {
+    100% {
+      transform: translate(calc(-100% - 3.5vmin), calc(-50% - 3.5vmin))
+        scale(1.75);
     }
   }
   @keyframes flipFront {
@@ -290,22 +356,17 @@
   }
 
   .controls {
-    margin: 0 5vmin 5vmin;
+    margin: 0 7vmin 7vmin;
+    text-align: center;
+  }
+
+  .controls :global(button) {
+    margin: 0 0.3em;
   }
 
   p {
     max-width: 14rem;
     margin: 1rem auto;
     line-height: 1.35;
-  }
-
-  @media (min-width: 480px) {
-    h1 {
-      max-width: none;
-    }
-
-    p {
-      max-width: none;
-    }
   }
 </style>

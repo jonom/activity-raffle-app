@@ -1,6 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
   export let label = "";
+  export let disabled = false;
 
   const dispatch = createEventDispatcher();
 
@@ -9,7 +10,7 @@
   }
 </script>
 
-<button on:click={dispatchClick}>
+<button on:click={dispatchClick} {disabled}>
   {label}
 </button>
 
@@ -19,7 +20,7 @@
     font-size: inherit;
     padding: 1em 2em;
     color: #ff3e00;
-    background-color: rgba(255, 62, 0, 0.1);
+    background-color: hsla(15, 100%, 90%);
     border-radius: 2em;
     border: 2px solid rgba(255, 62, 0, 0);
     outline: none;
@@ -33,6 +34,11 @@
   }
 
   button:active {
-    background-color: rgba(255, 62, 0, 0.2);
+    background-color: hsla(15, 100%, 80%);
+  }
+
+  button:disabled {
+    background-color: hsla(15, 0%, 90%);
+    color: rgb(161, 161, 161);
   }
 </style>
