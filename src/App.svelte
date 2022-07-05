@@ -95,16 +95,16 @@
 
   shuffleActivities();
 
-  function spin({ time = 25, decay = 1.005, friction = 300, cutoff = 1000 }) {
+  function spin({ velocity = 3000, decay = 1.005, friction = 35 }) {
     selectedActivityIndex = null;
+    const time = 50000 / velocity;
+    const nextVelocity = velocity / decay - friction;
+    const last = nextVelocity < friction;
     window.setTimeout(() => {
-      const last = time > cutoff;
       tick({ last });
       if (!last)
         spin({
-          time: time * decay + ((time - 24) / cutoff) * friction,
-          decay,
-          cutoff,
+          velocity: nextVelocity,
         });
     }, time);
   }
@@ -120,10 +120,13 @@
     }
     if (last) {
       selectedActivityIndex = highlightedActivityIndex;
-      jsConfetti.addConfetti({
-        emojis: Object.values(shuffledActivities)[selectedActivityIndex].emojis,
-        emojiSize: 200,
-      });
+      window.setTimeout(() => {
+        jsConfetti.addConfetti({
+          emojis:
+            Object.values(shuffledActivities)[selectedActivityIndex].emojis,
+          emojiSize: 200,
+        });
+      }, 300);
     }
   }
 </script>
